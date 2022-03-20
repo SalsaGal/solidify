@@ -2,7 +2,7 @@
 cargo b
 
 [all:run]
-cargo r
+cargo r -- -o test/sussy_clear.png test/sussy.png
 
 [help:run]
 cargo r -- --help
