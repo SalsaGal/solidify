@@ -11,7 +11,7 @@ struct Args {
     #[clap(short)]
     output: Option<String>,
 
-    /// Make black if the pixel is greater than this value
+    /// Retain colour if the pixel is greater than this value
     #[clap(short)]
     threshold: Option<u8>,
 }
