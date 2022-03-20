@@ -1,0 +1,8 @@
+[all:build]
+cargo b
+
+[all:run]
+cargo r
+
+[help:run]
+cargo r -- --help
