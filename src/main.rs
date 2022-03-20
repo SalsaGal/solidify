@@ -13,7 +13,7 @@ struct Args {
 
     /// Make black if the pixel is greater than this value
     #[clap(short)]
-    greater: Option<u8>,
+    threshold: Option<u8>,
 }
 
 fn main() {
@@ -30,8 +30,8 @@ fn main() {
             let mut image = image.into_rgba8();
             for pixel in &mut image.chunks_mut(4) {
                 let transparancy = &mut pixel[3];
-                if let Some(greater) = args.greater {
-                    if *transparancy > greater {
+                if let Some(threshold) = args.threshold {
+                    if *transparancy > threshold {
                         *transparancy = 255;
                     }
                 }
