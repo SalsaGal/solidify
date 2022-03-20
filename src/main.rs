@@ -25,7 +25,9 @@ fn main() {
         if let Ok(image) = image::open(&input) {
             let mut image = image.into_rgba8();
             for pixel in &mut image.chunks_mut(4) {
-                pixel[1] = 255;
+                if pixel[3] < 255 {
+                    pixel[3] = 0;
+                }
             }
             image.save_with_format(&output_path, image::ImageFormat::Png).unwrap();
         } else {
