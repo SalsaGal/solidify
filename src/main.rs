@@ -1,7 +1,6 @@
 use std::path::PathBuf;
 
 use clap::Parser;
-use image::DynamicImage;
 
 #[derive(Parser)]
 struct Args {
@@ -11,6 +10,10 @@ struct Args {
     /// Destination of files (defaults to working directory)
     #[clap(short)]
     output: Option<String>,
+
+    /// Make black if the pixel is greater than this value
+    #[clap(short)]
+    greater: Option<u8>,
 }
 
 fn main() {
@@ -25,8 +28,11 @@ fn main() {
         if let Ok(image) = image::open(&input) {
             let mut image = image.into_rgba8();
             for pixel in &mut image.chunks_mut(4) {
-                if pixel[3] < 255 {
-                    pixel[3] = 0;
+                let transparancy = &mut pixel[3];
+                if let Some(greater) = args.greater {
+                    if *transparancy > greater {
+                        *transparancy = 255;
+                    }
                 }
             }
             image.save_with_format(&output_path, image::ImageFormat::Png).unwrap();
