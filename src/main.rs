@@ -30,10 +30,10 @@ fn main() {
             let mut image = image.into_rgba8();
             for pixel in &mut image.chunks_mut(4) {
                 let transparancy = &mut pixel[3];
-                if let Some(threshold) = args.threshold {
-                    if *transparancy > threshold {
-                        *transparancy = 255;
-                    }
+                if *transparancy > args.threshold.unwrap_or(0) {
+                    *transparancy = 255;
+                } else {
+                    *transparancy = 0;
                 }
             }
             let mut path = output_path.clone();
