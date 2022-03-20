@@ -25,6 +25,7 @@ fn main() {
     };
 
     for input in args.input {
+        let input = PathBuf::from(input);
         if let Ok(image) = image::open(&input) {
             let mut image = image.into_rgba8();
             for pixel in &mut image.chunks_mut(4) {
@@ -35,9 +36,13 @@ fn main() {
                     }
                 }
             }
-            image.save_with_format(&output_path, image::ImageFormat::Png).unwrap();
+            let mut path = output_path.clone();
+            if path.is_dir() {
+                path.push(input.file_name().unwrap());
+            }
+            image.save_with_format(path, image::ImageFormat::Png).unwrap();
         } else {
-            eprintln!("Can't find file {}", input);
+            eprintln!("Can't find file {}", input.to_str().unwrap());
         }
     }
 }
